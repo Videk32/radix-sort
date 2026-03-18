@@ -46,13 +46,13 @@ int main(int argc, char* argv[]) {
         numbers.push_back(static_cast<unsigned char>(temp));
     }
 
-    countingSortByBit(numbers, 0);
-
     std::cout << "Prebrana stevila:" << std::endl;
     for (unsigned char n : numbers) {
         std::cout << (int)n << " ";
     }
     std::cout << std::endl;
+
+    countingSortByBit(numbers, 0);
 
     std::cout << "Po sortiranju po 0-tem bitu (TEST):" << std::endl;
     for (unsigned char n : numbers) {
