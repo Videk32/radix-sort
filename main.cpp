@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 
     outputFile.close();
 
-    std::cout << "Stevila zapisana v out.txt" << std::endl;
+    std::cout << "Zapisovanje zakljuceno." << std::endl;
 
     return 0;
 }
