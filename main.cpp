@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 
+
 void countingSortByBit(std::vector<unsigned char>& A, int k) {
     std::vector<unsigned char> B(A.size());
     int count[2] = {0, 0};
@@ -19,6 +20,12 @@ void countingSortByBit(std::vector<unsigned char>& A, int k) {
     }
 
     A = B;
+}
+
+void radixSort(std::vector<unsigned char>& A) {
+    for (int k = 0; k < 8; k++) {
+        countingSortByBit(A, k);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -46,19 +53,7 @@ int main(int argc, char* argv[]) {
         numbers.push_back(static_cast<unsigned char>(temp));
     }
 
-    std::cout << "Prebrana stevila:" << std::endl;
-    for (unsigned char n : numbers) {
-        std::cout << (int)n << " ";
-    }
-    std::cout << std::endl;
-
-    countingSortByBit(numbers, 0);
-
-    std::cout << "Po sortiranju po 0-tem bitu (TEST):" << std::endl;
-    for (unsigned char n : numbers) {
-        std::cout << (int)n << " ";
-    }
-    std::cout << std::endl;
+    radixSort(numbers);
 
     std::ofstream outputFile("out.txt");
 
@@ -72,8 +67,6 @@ int main(int argc, char* argv[]) {
     }
 
     outputFile.close();
-
-    std::cout << "Zapisovanje zakljuceno." << std::endl;
 
     return 0;
 }
