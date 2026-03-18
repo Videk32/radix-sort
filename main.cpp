@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     }
     std::cout << std::endl;
 
-    std::cout << "Po sortiranju po 0-tem bitu:" << std::endl;
+    std::cout << "Po sortiranju po 0-tem bitu (TEST):" << std::endl;
     for (unsigned char n : numbers) {
         std::cout << (int)n << " ";
     }
