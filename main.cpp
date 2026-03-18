@@ -2,6 +2,25 @@
 #include <fstream>
 #include <vector>
 
+void countingSortByBit(std::vector<unsigned char>& A, int k) {
+    std::vector<unsigned char> B(A.size());
+    int count[2] = {0, 0};
+
+    for (unsigned char x : A) {
+        int bit = (x >> k) & 1;
+        count[bit]++;
+    }
+
+    count[1] += count[0];
+
+    for (int i = A.size() - 1; i >= 0; i--) {
+        int bit = (A[i] >> k) & 1;
+        B[--count[bit]] = A[i];
+    }
+
+    A = B;
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         std::cout << "Uporaba: vaja2 <vhodna_datoteka>" << std::endl;
@@ -27,7 +46,15 @@ int main(int argc, char* argv[]) {
         numbers.push_back(static_cast<unsigned char>(temp));
     }
 
+    countingSortByBit(numbers, 0);
+
     std::cout << "Prebrana stevila:" << std::endl;
+    for (unsigned char n : numbers) {
+        std::cout << (int)n << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Po sortiranju po 0-tem bitu (TEST):" << std::endl;
     for (unsigned char n : numbers) {
         std::cout << (int)n << " ";
     }
