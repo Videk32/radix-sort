@@ -33,5 +33,20 @@ int main(int argc, char* argv[]) {
     }
     std::cout << std::endl;
 
+    std::ofstream outputFile("out.txt");
+
+    if (!outputFile.is_open()) {
+        std::cout << "Napaka: izhodne datoteke ni mogoce odpreti." << std::endl;
+        return 1;
+    }
+
+    for (unsigned char n : numbers) {
+        outputFile << (int)n << " ";
+    }
+
+    outputFile.close();
+
+    std::cout << "Stevila zapisana v out.txt" << std::endl;
+
     return 0;
 }
