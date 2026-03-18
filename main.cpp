@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -8,7 +9,6 @@ int main(int argc, char* argv[]) {
     }
 
     std::string inputFilePath = argv[1];
-    std::cout << "Vhodna datoteka: " << inputFilePath << std::endl;
     std::ifstream inputFile(inputFilePath);
 
     if (!inputFile.is_open()) {
@@ -16,7 +16,22 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::cout << "Datoteka uspešno odprta." << std::endl;
+    std::vector<unsigned char> numbers;
+    int temp;
+
+    while (inputFile >> temp) {
+        if (temp < 0 || temp > 255) {
+            std::cout << "Napaka: stevilo izven obsega (0-255)" << std::endl;
+            return 1;
+        }
+        numbers.push_back(static_cast<unsigned char>(temp));
+    }
+
+    std::cout << "Prebrana stevila:" << std::endl;
+    for (unsigned char n : numbers) {
+        std::cout << (int)n << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
 }
