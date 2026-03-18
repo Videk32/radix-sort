@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 
+
 void countingSortByBit(std::vector<unsigned char>& A, int k) {
     std::vector<unsigned char> B(A.size());
     int count[2] = {0, 0};
@@ -13,12 +14,18 @@ void countingSortByBit(std::vector<unsigned char>& A, int k) {
 
     count[1] += count[0];
 
-    for (int i = A.size() - 1; i >= 0; i--) {
+    for (int i = static_cast<int>(A.size()) - 1; i >= 0; --i) {
         int bit = (A[i] >> k) & 1;
         B[--count[bit]] = A[i];
     }
 
     A = B;
+}
+
+void radixSort(std::vector<unsigned char>& A) {
+    for (int k = 0; k < 8; k++) {
+        countingSortByBit(A, k);
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -46,19 +53,7 @@ int main(int argc, char* argv[]) {
         numbers.push_back(static_cast<unsigned char>(temp));
     }
 
-    countingSortByBit(numbers, 0);
-
-    std::cout << "Prebrana stevila:" << std::endl;
-    for (unsigned char n : numbers) {
-        std::cout << (int)n << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "Po sortiranju po 0-tem bitu (TEST):" << std::endl;
-    for (unsigned char n : numbers) {
-        std::cout << (int)n << " ";
-    }
-    std::cout << std::endl;
+    radixSort(numbers);
 
     std::ofstream outputFile("out.txt");
 
@@ -67,13 +62,12 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    for (unsigned char n : numbers) {
-        outputFile << (int)n << " ";
+    for (size_t i = 0; i < numbers.size(); i++) {
+        outputFile << static_cast<int>(numbers[i]);
+        if (i != numbers.size() - 1) {
+            outputFile << " ";
+        }
     }
-
-    outputFile.close();
-
-    std::cout << "Zapisovanje zakljuceno." << std::endl;
 
     return 0;
 }
