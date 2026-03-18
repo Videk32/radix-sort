@@ -14,7 +14,7 @@ void countingSortByBit(std::vector<unsigned char>& A, int k) {
 
     count[1] += count[0];
 
-    for (int i = A.size() - 1; i >= 0; i--) {
+    for (int i = static_cast<int>(A.size()) - 1; i >= 0; --i) {
         int bit = (A[i] >> k) & 1;
         B[--count[bit]] = A[i];
     }
@@ -62,11 +62,12 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    for (unsigned char n : numbers) {
-        outputFile << (int)n << " ";
+    for (size_t i = 0; i < numbers.size(); i++) {
+        outputFile << static_cast<int>(numbers[i]);
+        if (i != numbers.size() - 1) {
+            outputFile << " ";
+        }
     }
-
-    outputFile.close();
 
     return 0;
 }
