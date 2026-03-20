@@ -33,5 +33,6 @@ int main(int argc, char* argv[]) {
     }
     std::cout << std::endl;
 
+    inputFile.close();
     return 0;
 }
