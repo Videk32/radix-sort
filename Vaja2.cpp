@@ -69,6 +69,5 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    inputFile.close();
     return 0;
 }
