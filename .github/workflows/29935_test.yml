@@ -1,0 +1,64 @@
+name: 29935 Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  preveri-teste:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Prevzem kode
+        uses: actions/checkout@v4
+
+      - name: Preveri obstoj testne skripte
+        run: |
+          if [ ! -f "tests/run_tests.cmake" ]; then
+            echo "Datoteka tests/run_tests.cmake ne obstaja." > napaka.txt
+            exit 1
+          fi
+
+      - name: Shrani napako kot artefakt
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napaka-preverjanje
+          path: napaka.txt
+
+  izvedi-teste:
+    runs-on: ubuntu-latest
+    needs: preveri-teste
+
+    strategy:
+      matrix:
+        compiler: [g++, clang++]
+
+    steps:
+      - name: Prevzem kode
+        uses: actions/checkout@v4
+
+      - name: Namesti orodja
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++ clang
+
+      - name: Pripravi build mapo
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+
+      - name: Zgradi projekt
+        run: |
+          cmake --build build 2> napaka.txt
+
+      - name: Zaženi teste
+        run: |
+          ctest --test-dir build --output-on-failure 2> napaka.txt
+
+      - name: Shrani napako kot artefakt
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napaka-${{ matrix.compiler }}
+          path: napaka.txt
