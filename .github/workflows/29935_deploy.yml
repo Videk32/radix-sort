@@ -1,0 +1,32 @@
+name: 29935 Deploy
+
+on:
+  workflow_run:
+    workflows:
+      - 29935 Test
+    types:
+      - completed
+
+jobs:
+  docker-deploy:
+    runs-on: ubuntu-latest
+
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Prevzem kode
+        uses: actions/checkout@v4
+
+      - name: Prijava v DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_LEPAVIDA }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Zgradi Docker sliko
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_LEPAVIDA }}/radix-sort:latest .
+
+      - name: Potisni Docker sliko na DockerHub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_LEPAVIDA }}/radix-sort:latest
