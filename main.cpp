@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
     radixSort(numbers);
 
-    std::ofstream outputFile("out.txt");
+    std::ofstream outputFile(inputFilePath.substr(0, inputFilePath.find_last_of("/\\")) + "/out.txt");
 
     if (!outputFile.is_open()) {
         std::cout << "Napaka: izhodne datoteke ni mogoce odpreti." << std::endl;
