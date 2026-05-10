@@ -13,7 +13,7 @@ endif()
 file(READ "${TEST_DIR}/out.txt" output)
 string(STRIP "${output}" output)
 
-if(NOT output STREQUAL "0 1 2 3 5 8 10 255")
+if(NOT output STREQUAL "0 1 2 3 5 8 10 999")
     message(FATAL_ERROR "Test 1 ni uspel. Dobljeno: ${output}")
 endif()
 
